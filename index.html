@@ -318,8 +318,8 @@
     .rel-tab:not(.active):hover { border-bottom-color: #fca311; }
     .rel-tab.active { background-color: #fca311; color: #000a24; border-color: #fca311; }
   </style>
-  <!-- Typeform embed -->
-  <script src="//embed.typeform.com/next/embed.js"></script>
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <!-- Calendly embed -->
   <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
   <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
@@ -1060,22 +1060,51 @@
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-0 border border-sc-black/8">
 
-            <!-- Email brief -->
-            <div class="bg-white p-8 md:p-10 border-b md:border-b-0 md:border-r border-sc-black/8 flex flex-col justify-center">
-              <div class="mb-8">
+            <!-- Lead form -->
+            <div class="bg-white p-8 md:p-10 border-b md:border-b-0 md:border-r border-sc-black/8 flex flex-col justify-between" id="lead-form-panel">
+              <div>
                 <p class="font-headline text-[10px] uppercase tracking-[0.45em] text-sc-gold font-semibold mb-2">Option A</p>
-                <h4 class="font-headline text-xl font-bold text-sc-black mb-3">Send a brief intro</h4>
-                <p class="text-sc-navy/55 text-[14px] leading-relaxed">Drop a note with your business context and the biggest bottleneck you're hitting. We'll review it and respond within 24 hours.</p>
+                <h4 class="font-headline text-xl font-bold text-sc-black mb-2">Send a brief intro</h4>
+                <p class="text-sc-navy/55 text-[14px] leading-relaxed mb-6">Drop your details and biggest bottleneck. We'll review and respond within 24 hours.</p>
               </div>
-              <a href="mailto:hello@slayercore.com?subject=Intro Call Request" class="btn bg-sc-black text-white px-8 py-3.5 self-start">
-                Email Us Directly
-                <span class="btn-icon bg-white/10">
-                  <svg width="9" height="9" viewBox="0 0 10 10" fill="none">
-                    <path d="M1 9L9 1M9 1H3M9 1V7" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </span>
-              </a>
-              <p class="mt-4 font-headline text-[10px] uppercase tracking-widest text-sc-muted">hello@slayercore.com</p>
+              <form id="lead-form" class="flex flex-col gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label class="font-headline text-[10px] uppercase tracking-widest text-sc-navy/60 font-semibold block mb-1.5">Name</label>
+                    <input type="text" name="name" required placeholder="Your name" class="w-full border border-sc-black/15 px-4 py-3 text-[14px] text-sc-black placeholder:text-sc-navy/30 focus:outline-none focus:border-sc-black transition-colors bg-sc-off"/>
+                  </div>
+                  <div>
+                    <label class="font-headline text-[10px] uppercase tracking-widest text-sc-navy/60 font-semibold block mb-1.5">Email</label>
+                    <input type="email" name="email" required placeholder="you@company.com" class="w-full border border-sc-black/15 px-4 py-3 text-[14px] text-sc-black placeholder:text-sc-navy/30 focus:outline-none focus:border-sc-black transition-colors bg-sc-off"/>
+                  </div>
+                </div>
+                <div>
+                  <label class="font-headline text-[10px] uppercase tracking-widest text-sc-navy/60 font-semibold block mb-1.5">Company / Website</label>
+                  <input type="text" name="company" placeholder="company.com" class="w-full border border-sc-black/15 px-4 py-3 text-[14px] text-sc-black placeholder:text-sc-navy/30 focus:outline-none focus:border-sc-black transition-colors bg-sc-off"/>
+                </div>
+                <div>
+                  <label class="font-headline text-[10px] uppercase tracking-widest text-sc-navy/60 font-semibold block mb-1.5">Biggest Bottleneck</label>
+                  <textarea name="bottleneck" rows="3" placeholder="What's the main thing holding back your revenue right now?" class="w-full border border-sc-black/15 px-4 py-3 text-[14px] text-sc-black placeholder:text-sc-navy/30 focus:outline-none focus:border-sc-black transition-colors bg-sc-off resize-none"></textarea>
+                </div>
+                <div class="flex items-center gap-4 mt-1">
+                  <button type="submit" id="form-submit-btn" class="btn bg-sc-black text-white px-8 py-3.5">
+                    Send Intro
+                    <span class="btn-icon bg-white/10">
+                      <svg width="9" height="9" viewBox="0 0 10 10" fill="none">
+                        <path d="M1 9L9 1M9 1H3M9 1V7" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </span>
+                  </button>
+                  <p id="form-error" class="font-headline text-[11px] uppercase tracking-widest text-red-500 hidden">Something went wrong. Try again.</p>
+                </div>
+              </form>
+              <div id="form-success" class="hidden pt-8">
+                <div class="w-10 h-10 bg-sc-gold flex items-center justify-center mb-5">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 9L7 13L15 5" stroke="#0D0D0D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <h4 class="font-headline text-xl font-bold text-sc-black mb-2">Got it.</h4>
+                <p class="text-sc-navy/55 text-[14px] leading-relaxed">We'll review your intro and get back to you within 24 hours.</p>
+              </div>
             </div>
 
             <!-- Calendly -->
@@ -1418,6 +1447,42 @@
         current = (current + 1) % states.length;
         showState(current);
       }, 3000);
+    })();
+  </script>
+
+  <script>
+    (function() {
+      var SUPABASE_URL = 'https://kzdxumubxgmhazodbltu.supabase.co';
+      var SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt6ZHh1bXVieGdtaGF6b2RibHR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5NjEyOTMsImV4cCI6MjA5MjUzNzI5M30.qAWfHOFeQijHiGOkTH35BKu4oO7wbR1uypFFWujr84w';
+      var db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+      var form = document.getElementById('lead-form');
+      if (!form) return;
+
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        var btn = document.getElementById('form-submit-btn');
+        var err = document.getElementById('form-error');
+        btn.disabled = true;
+        btn.style.opacity = '0.6';
+        err.classList.add('hidden');
+
+        var result = await db.from('leads').insert({
+          name: form.name.value.trim(),
+          email: form.email.value.trim(),
+          company: form.company.value.trim(),
+          bottleneck: form.bottleneck.value.trim()
+        });
+
+        if (result.error) {
+          btn.disabled = false;
+          btn.style.opacity = '1';
+          err.classList.remove('hidden');
+        } else {
+          form.classList.add('hidden');
+          document.getElementById('form-success').classList.remove('hidden');
+        }
+      });
     })();
   </script>
 </body>
